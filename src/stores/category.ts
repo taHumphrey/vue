@@ -1,21 +1,39 @@
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useCategoryStore = defineStore('categories', () => {
-    interface Category {
-        id: number,
-        title: String,
-        budget: number,
-        spent: number,
-    }
-    const category = ref<Category>({'id': 1, 'title': "", 'budget': 0, 'spent': 0 })
-    
-    const categories = ref<Category[]>([])
+interface Category {
+    id: number,
+    title: string,
+    budget: string
+}
 
-    function resetCategory(){
-        Object.assign(category, {'id': categories.value.length + 1, 'title': "", 'budget': 0, 'spent': 0 })
-    }
-    function addCategories(){}
+// Store that tracks all data pertaining to budget categories
+export const useCategoryStore = defineStore('categories', () => {
+
+    // State
+    const category = ref<Category>({id: 0, title: "", budget: ""})
+    const categories = ref<Array<Category>>([])
+
+
+    // Getters
+    const getCategoryList = computed(() => categories.value )
+
+
+    // Actions
     function deleteCategories(){}
+
+    function addCategoryToList(){
+        categories.value.push(JSON.parse(JSON.stringify(category.value)))
+    }
+
+    
+    // Have to return items to be used in Vue application
+    return {
+        category, 
+        categories, 
+        getCategoryList, 
+        deleteCategories, 
+        addCategoryToList
+    }
 })
 
