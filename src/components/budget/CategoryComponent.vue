@@ -29,20 +29,32 @@ import CategoryForm from './CategoryForm.vue';
 import CategoryContainer from './CategoryContainer.vue';
 
 import { PlusCircleIcon } from '@heroicons/vue/24/outline';
+import { storeToRefs } from 'pinia';
+import { useFormStore } from '@/stores/forms';
 
 const modal = ref(false)
 const category_store = useCategoryStore()
+const {category} = storeToRefs(category_store)
 
+const forms_store = useFormStore()
+const {categoryFormTitle, categoryFormBudget} = storeToRefs(forms_store)
 
 
 function submit(){
-    closeCategoryModal()
-    category_store.addCategoryToList()
+    if (category.value.title == "" || category.value.budget == ""){
+        categoryFormTitle.value = true
+        categoryFormBudget.value = true
+    }
+    else {
+        closeCategoryModal()
+        category_store.addCategoryToList()
+    }
+ 
 }
 
 
 function openCategoryModal(){ modal.value = true }
-function closeCategoryModal(){ modal.value = false }
+function closeCategoryModal(){ modal.value = false; categoryFormTitle.value = false; categoryFormBudget.value = false}
 
 
 </script>

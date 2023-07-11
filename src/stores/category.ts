@@ -24,6 +24,11 @@ export const useCategoryStore = defineStore('categories', () => {
 
     function addCategoryToList(){
         categories.value.push(JSON.parse(JSON.stringify(category.value)))
+        resetCategory()
+    }
+
+    function resetCategory(){
+        Object.assign(category.value, {id: 0, title: "", budget: ""})
     }
 
     
